@@ -3,28 +3,33 @@ from discord.ext import tasks, commands
 from datetime import datetime
 from lib.utils_json import load_settings
 from lib.utils_csv import get_random_csv_row
+import os
+
+SEND_TIME = "08:50"
 
 class Reminder(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+
+    async def cog_load(self):
         self.reminder_task.start()
 
-    @tasks.loop(minutes=1)
+    @tasks.loop(seconds=60)
     async def reminder_task(self):
-        settings = load_settings()
         current_time = datetime.now().strftime("%H:%M")
-        # テスト用: 無条件でONにしたい場合はif True: に変更可能
-        # settings.get('reminder_enabled') and
-        if current_time == "17:56":
-            channel_id = settings.get('reminder_channel')
-            channel = self.bot.get_channel(channel_id) if channel_id else None
-            if channel:
-                result = get_random_csv_row()
-                if result and len(result) >= 3:
-                    figure, quote, url = result
-                    await channel.send(f"今日のらいさま\n{quote}\n{url}")
-                else:
-                    await channel.send("今日はチクチクなし!")
+        TEXT_CHANNEL_ID = os.getenv('TEXT_CHANNEL')
+        if TEXT_CHANNEL_ID:
+            channel_ids = [int(cid.strip()) for cid in TEXT_CHANNEL_ID.split(',')]
+        else:
+            channel_ids = []
+        if current_time == SEND_TIME:
+            for text_id in channel_ids:
+                channel = self.bot.get_channel(text_id)
+                if channel:
+                    result = get_random_csv_row()
+                    if result and len(result) >= 3:
+                        figure, quote, url = result
+                        await channel.send(f"らいさま今日の格言\n{quote}\n{url}")
 
 # Cog登録用setup関数
 def setup(bot):
