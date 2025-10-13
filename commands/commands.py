@@ -9,8 +9,7 @@ async def tktk_command(interaction: Interaction):
     :return:
     """
     figure, quote, url = get_random_csv_row()
-    await interaction.response.send_message(f"{quote}")
-    await interaction.followup.send(f"{url}")
+    await interaction.response.send_message(f"{quote}\n{url}")
 
 @app_commands.command(name="tktk_help", description="Show help for tikutiku bot")
 async def tktk_help_command(interaction: Interaction):
