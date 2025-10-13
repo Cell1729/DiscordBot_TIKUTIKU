@@ -1,4 +1,5 @@
 from discord import app_commands, Interaction
+from lib.utils_csv import get_random_csv_row
 
 @app_commands.command(name="tktk", description="Show a random tikutiku quote")
 async def tktk_command(interaction: Interaction):
@@ -7,7 +8,9 @@ async def tktk_command(interaction: Interaction):
     :param interaction:
     :return:
     """
-    await interaction.response.send_message("Random tikutiku message")
+    figure, quote, url = get_random_csv_row()
+    await interaction.response.send_message(f"{quote}")
+    await interaction.followup.send(f"{url}")
 
 @app_commands.command(name="tktk_help", description="Show help for tikutiku bot")
 async def tktk_help_command(interaction: Interaction):
@@ -17,11 +20,11 @@ async def tktk_help_command(interaction: Interaction):
     :return:
     """
     help_text = (
-        "/tktk : Show a random tikutiku quote\n"
-        "/tktk_help : Show this help message\n"
-        "/tktk_settime <HH:MM> : Set reminder time\n"
-        "/tktk_setchannel : Set reminder channel\n"
-        "/tktk_reminder <on|off> : Toggle reminder"
+        "/tktk : ランダムに1つちくちく言葉を返します。\n"
+        "/tktk_help : helpの表示します。\n"
+        "/tktk_settime <HH:MM> : リマインダー時間を設定します。\n"
+        "/tktk_setchannel : リマインダーのチャンネルを設定します。\n"
+        "/tktk_reminder <on|off> : リマインダーのON/OFFを切り替えます。\n"
     )
     await interaction.response.send_message(help_text)
 

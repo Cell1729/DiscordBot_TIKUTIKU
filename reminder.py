@@ -1,6 +1,6 @@
 # reminder機能のロジック
 from discord.ext import tasks, commands
-from utils import load_settings
+from lib.utils_json import load_settings
 
 class Reminder(commands.Cog):
     def __init__(self, bot):

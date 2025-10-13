@@ -2,8 +2,7 @@
 from discord.ext import commands
 from discord import Intents, Client, Interaction
 from discord.app_commands import CommandTree
-from utils import load_settings, save_settings
-from dotenv import load_dotenv
+
 
 class CommandHandler(Client):
     def __init__(self, intents: Intents) -> None:
