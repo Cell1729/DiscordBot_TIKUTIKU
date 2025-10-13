@@ -8,12 +8,14 @@ def get_random_csv_row(csv_path=CSV_PATH):
     """
     指定したCSVファイルからランダムに1行（リスト型）を抽出して返す関数。
     :param csv_path: CSVファイルのパス
-    :return: ランダムな1行（リスト型） or None（ファイルが空/存在しない場合）
+    :return: ランダムな1行（リスト型
+            - Dont exits file -> csvファイルが存在しない
+            - CSV file broken -> csvファイルが壊れている
     """
     if not os.path.exists(csv_path):
-        return "WTF"
+        return "","Dont exist file", ""
     with open(csv_path, encoding='utf-8') as f:
         reader = list(csv.reader(f))
         if not reader:
-            return "hmm"
+            return "","CSV file broken", ""
         return random.choice(reader)

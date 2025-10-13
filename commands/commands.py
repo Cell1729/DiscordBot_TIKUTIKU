@@ -49,13 +49,12 @@ async def tktk_setchannel_command(interaction: Interaction):
 @app_commands.command(name="tktk_reminder", description="Toggle reminder ON/OFF")
 async def tktk_reminder_command(interaction: Interaction, onoff: str):
     """
-    リマインダーのON/OFFを切り替える。
+    リマインダーのON/OFFを切り替える。メッセージを送信するところまで実装
     :param interaction:
     :param onoff:
     :return:
     """
     await interaction.response.send_message(f"Reminder {'enabled' if onoff == 'on' else 'disabled'}")
-
 
 def get_commands():
     return [
@@ -65,4 +64,3 @@ def get_commands():
         tktk_setchannel_command,
         tktk_reminder_command
     ]
-
