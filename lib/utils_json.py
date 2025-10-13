@@ -2,7 +2,7 @@
 import json
 import os
 
-SETTINGS_PATH = os.path.join(os.path.dirname(__file__), 'settings.json')
+SETTINGS_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'env', 'settings.json')
 
 def load_settings():
     """Load settings from settings.json."""
@@ -22,12 +22,11 @@ def save_settings(settings):
         json.dump(settings, f, ensure_ascii=False, indent=2)
 
 
-def load_json(file_path):
+def load_json():
     """
     JSONファイルを読み込み、Pythonの辞書型に変換する関数
-    :param file_path: 読み込むJSONファイルのパス
     :return: JSONデータを含む辞書型オブジェクト
     """
-    with open(file_path, 'r', encoding='utf-8') as file:
+    with open(SETTINGS_PATH, 'r', encoding='utf-8') as file:
         data = json.load(file)
     return data

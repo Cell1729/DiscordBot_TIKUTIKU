@@ -18,10 +18,13 @@ class Reminder(commands.Cog):
     async def reminder_task(self):
         current_time = datetime.now().strftime("%H:%M")
         TEXT_CHANNEL_ID = os.getenv('TEXT_CHANNEL')
+        # 環境変数からデータを配列化
         if TEXT_CHANNEL_ID:
             channel_ids = [int(cid.strip()) for cid in TEXT_CHANNEL_ID.split(',')]
         else:
             channel_ids = []
+
+        # 定刻になったらメッセージを送信
         if current_time == SEND_TIME:
             for text_id in channel_ids:
                 channel = self.bot.get_channel(text_id)
