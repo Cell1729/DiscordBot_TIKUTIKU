@@ -61,6 +61,9 @@ async def tktk_reminder_command(interaction: Interaction, onoff: str):
     :param onoff:
     :return:
     """
+    settings = load_settings()
+    settings['reminder_enabled'] = (onoff == 'on')
+    save_settings(settings)
     await interaction.response.send_message(f"リマインダー {'enabled' if onoff == 'on' else 'disabled'}")
 
 def get_commands():
