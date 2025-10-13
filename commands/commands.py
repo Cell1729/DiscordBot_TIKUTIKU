@@ -9,8 +9,7 @@ async def tktk_command(interaction: Interaction):
     :return:
     """
     figure, quote, url = get_random_csv_row()
-    await interaction.response.send_message(f"{quote}")
-    await interaction.followup.send(f"{url}")
+    await interaction.response.send_message(f"{quote}\n{url}")
 
 @app_commands.command(name="tktk_help", description="Show help for tikutiku bot")
 async def tktk_help_command(interaction: Interaction):
@@ -50,13 +49,12 @@ async def tktk_setchannel_command(interaction: Interaction):
 @app_commands.command(name="tktk_reminder", description="Toggle reminder ON/OFF")
 async def tktk_reminder_command(interaction: Interaction, onoff: str):
     """
-    リマインダーのON/OFFを切り替える。
+    リマインダーのON/OFFを切り替える。メッセージを送信するところまで実装
     :param interaction:
     :param onoff:
     :return:
     """
     await interaction.response.send_message(f"Reminder {'enabled' if onoff == 'on' else 'disabled'}")
-
 
 def get_commands():
     return [
@@ -66,4 +64,3 @@ def get_commands():
         tktk_setchannel_command,
         tktk_reminder_command
     ]
-
