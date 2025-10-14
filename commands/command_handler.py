@@ -11,7 +11,6 @@ GREETINGS_URL = "https://www.twitch.tv/alfrea/clip/TriangularCogentLEDSwiftRage-
 class CommandHandler(commands.Bot):
     def __init__(self, command_prefix, intents: Intents) -> None:
         super().__init__(command_prefix=command_prefix, intents=intents)
-        #self.tree = CommandTree(self)
 
     def add_app_command(self, command):
         """外部からコマンドを追加するためのメソッド"""
