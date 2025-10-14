@@ -13,18 +13,21 @@ class Reminder(commands.Cog):
 
     @tasks.loop(seconds=60)
     async def reminder_task(self):
-        current_time = datetime.now().strftime("%H:%M")
-        all_settings = load_settings()
-        for guild_id, settings in all_settings.items():
-            if not settings.get("reminder_enabled"):
-                continue
-            reminder_time = settings.get("reminder_time")
-            channel_id = settings.get("reminder_channel")
-            if reminder_time and channel_id and current_time == reminder_time:
-                channel = self.bot.get_channel(channel_id)
-                if channel:
-                    figure, quote, url = get_random_csv_row()
-                    await channel.send(f"らいさま今日の格言\n{quote}\n{url}")
+        try:
+            current_time = datetime.now().strftime("%H:%M")
+            all_settings = load_settings()
+            for guild_id, settings in all_settings.items():
+                if not settings.get("reminder_enabled"):
+                    continue
+                reminder_time = settings.get("reminder_time")
+                channel_id = settings.get("reminder_channel")
+                if reminder_time and channel_id and current_time == reminder_time:
+                    channel = self.bot.get_channel(channel_id)
+                    if channel:
+                        figure, quote, url = get_random_csv_row()
+                        await channel.send(f"らいさま今日の格言\n{quote}\n{url}")
+        except Exception as e:
+            print(f"Error in reminder task: \n{e}")
 
 # Cog登録用setup関数
 def setup(bot):

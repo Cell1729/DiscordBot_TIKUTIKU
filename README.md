@@ -37,4 +37,4 @@ DiscordBot_TIKUTIKU/
 
 - [Pythonで実用Discord Bot](https://qiita.com/1ntegrale9/items/9d570ef8175cf178468f)
 - [らいさまちくちく集_2025-10-12](https://docs.google.com/spreadsheets/d/1TCR4HoYr2zURLk5cMeZWHtN6eW0LorvNT7EV7wUu7Ek/edit?gid=0#gid=0)
-
+- [初心者向け：Python × SQLデータベースの最強タッグ「SQLAlchemy」入門！](https://qiita.com/huntersai/items/34a5cb39a59bd9b7df08)
