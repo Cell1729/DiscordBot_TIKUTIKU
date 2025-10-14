@@ -1,16 +1,30 @@
-from discord import app_commands, Interaction
-from lib.utils_csv import get_random_csv_row
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from models.quotes_extract import RandomQuoteExtractor
 from lib.utils_json import save_guild_settings, load_guild_settings
+from discord import app_commands, Interaction
+import os
+
+db_path = os.path.join(os.path.dirname(__file__), '..', 'models', 'db.sqlite3')
+engine = create_engine(f'sqlite:///{os.path.abspath(db_path)}')
+SESSION = sessionmaker(bind=engine)
+
 
 @app_commands.command(name="tktk", description="Show a random tikutiku quote")
 async def tktk_command(interaction: Interaction):
     """
-    csvファイルからランダムに一行選んで返す。
+    データベースからランダムに一行選んで返す。
     :param interaction:
     :return:
     """
-    figure, quote, url = get_random_csv_row()
-    await interaction.response.send_message(f"{quote}\n{url}")
+    session = SESSION()
+    extractor = RandomQuoteExtractor(session)
+    quote, url = extractor.get_random_quote()
+    session.close()
+    if quote:
+        await interaction.response.send_message(f"{quote}\n{url}")
+    else:
+        await interaction.response.send_message("データベースに名言が登録されていません。")
 
 @app_commands.command(name="tktk_help", description="Show help for tikutiku bot")
 async def tktk_help_command(interaction: Interaction):
