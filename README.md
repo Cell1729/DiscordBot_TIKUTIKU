@@ -19,22 +19,36 @@
 ## プロジェクト構成
 
 ```
-DiscordBot_TIKUTIKU/
-├── bot.py                # メインBotプログラム
-├── config.py             # 設定（トークン、リマインダー時間等）
-├── quotes.csv            # 名言集（CSV形式）
-├── reminder.py           # リマインダー機能のロジック
-├── commands.py           # コマンド処理（/tktk, /tktk help等）
-├── utils.py              # 補助関数（CSV読み込み等）
-├── requirements.txt      # 必要なPythonパッケージ
-├── README.md             # 説明書
-├── .gitignore            # Gitで管理しないファイル
-├── .env/                 # 仮想環境
-└── docs/                 # ドキュメント
+DiscordBot_TIKUTIKU
+├── .venv
+├── commands/
+│   ├── __init__.py
+│   ├── command_handler.py
+│   └── commands.py
+├── docs/
+│   └── README_EN.md
+├── lib/
+│   ├── __init__.py
+│   ├── convert_database.py
+│   ├── utils_csv.py
+│   └── utils_json.py
+├── models/
+│   ├── __init__.py
+│   ├── connect_database.py
+│   ├── db.sqlite3
+│   ├── models.py
+│   └── qutes_extract.py
+├── .env
+├── .gitignore
+├── main.py
+├── qutes.csv
+├── README.md
+├── reminder.py
+└── requirements.txt
 ```
 
 ## Reference
 
 - [Pythonで実用Discord Bot](https://qiita.com/1ntegrale9/items/9d570ef8175cf178468f)
 - [らいさまちくちく集_2025-10-12](https://docs.google.com/spreadsheets/d/1TCR4HoYr2zURLk5cMeZWHtN6eW0LorvNT7EV7wUu7Ek/edit?gid=0#gid=0)
-
+- [初心者向け：Python × SQLデータベースの最強タッグ「SQLAlchemy」入門！](https://qiita.com/huntersai/items/34a5cb39a59bd9b7df08)

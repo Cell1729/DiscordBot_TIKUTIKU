@@ -4,9 +4,6 @@ from commands.commands import get_commands
 from discord import Intents
 import os
 from dotenv import load_dotenv
-from lib.utils_csv import get_random_csv_row
-# Reminder Cogのインポート
-from reminder import Reminder
 
 load_dotenv()
 
