@@ -31,13 +31,26 @@ class CommandHandler(commands.Bot):
         print(f'Logged in as {self.user}')
 
     async def on_guild_join(self, guild: discord.Guild):
+        """
+        サーバーに参加したときに呼ばれるイベントハンドラ。
+        :param guild:
+        :return:
+        """
         server_id = str(guild.id)
-        # 既存サーバーIDの重複チェック
+        channel = next((c for c in guild.text_channels if c.permissions_for(guild.me).send_messages), None)
+        reminder_channel_id = channel.id if channel else None
+        reminder_channel_name = channel.name if channel else "未設定"
         exists = session.query(ServerSettings).filter_by(server_id=server_id).first()
         if not exists:
-            new_setting = ServerSettings(server_id=server_id)
+            new_setting = ServerSettings(
+                server_id=server_id,
+                reminder_time="8:50",
+                reminder_channel=reminder_channel_id,
+                reminder_channel_name=reminder_channel_name,
+                reminder_enabled=0
+            )
             session.add(new_setting)
             session.commit()
-        channel = next((c for c in guild.text_channels if c.permissions_for(guild.me).send_messages), None)
+        session.close()
         if channel:
             await channel.send(f"{GREETINGS_TEXT}\n{GREETINGS_URL}")
