@@ -17,4 +17,12 @@ class ServerSettings(Base):
     server_id = Column(String, unique=True)
     reminder_time = Column(String)
     reminder_channel = Column(Integer)
+    reminder_channel_name = Column(String)
     reminder_enabled = Column(Integer)  # 0 or 1 for boolean
+
+
+if __name__ == '__main__':
+    # 初期化処理
+    engine = create_engine('sqlite:///db.sqlite3')
+    Base.metadata.create_all(engine)
+    print('Database initialized')
