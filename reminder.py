@@ -1,8 +1,14 @@
 # reminder機能のロジック
 from discord.ext import tasks, commands
 from datetime import datetime
-from lib.utils_json import load_settings
+from models.models import ServerSettings
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 from lib.utils_csv import get_random_csv_row
+import pytz
+
+engine = create_engine('sqlite:///models/db.sqlite3')
+Session = sessionmaker(bind=engine)
 
 class Reminder(commands.Cog):
     def __init__(self, bot):
@@ -14,18 +20,19 @@ class Reminder(commands.Cog):
     @tasks.loop(seconds=60)
     async def reminder_task(self):
         try:
-            current_time = datetime.now().strftime("%H:%M")
-            all_settings = load_settings()
-            for guild_id, settings in all_settings.items():
-                if not settings.get("reminder_enabled"):
-                    continue
-                reminder_time = settings.get("reminder_time")
-                channel_id = settings.get("reminder_channel")
-                if reminder_time and channel_id and current_time == reminder_time:
+            jst = pytz.timezone('Asia/Tokyo')
+            current_time = datetime.now(jst).strftime("%H:%M")
+            session = Session()
+            all_settings = session.query(ServerSettings).filter_by(reminder_enabled=1).all()
+            for settings in all_settings:
+                reminder_time = settings.reminder_time
+                channel_id = settings.reminder_channel
+                if current_time == reminder_time:
                     channel = self.bot.get_channel(channel_id)
                     if channel:
                         figure, quote, url = get_random_csv_row()
                         await channel.send(f"らいさま今日の格言\n{quote}\n{url}")
+            session.close()
         except Exception as e:
             print(f"Error in reminder task: \n{e}")
 
